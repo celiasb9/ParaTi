@@ -32,6 +32,7 @@
       font-size: 1.1em;
       line-height: 1.8;
       white-space: pre-wrap;
+      position: relative;
     }
 
     .cursor {
@@ -48,21 +49,41 @@
       50% { opacity: 0; }
     }
 
-    a {
-      color: white;
+    .boton-stitch {
+      display: none;
+      margin-top: 30px;
+      padding: 10px 25px;
+      font-size: 1em;
       font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #74b9ff, #a29bfe);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      animation: latir 1.5s infinite;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       text-decoration: none;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .boton-stitch:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes latir {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.07); }
+      50% { transform: scale(1.15); }
+      75% { transform: scale(1.07); }
     }
   </style>
 </head>
 <body>
 
-  <div class="contenido" id="texto">
-    <span class="cursor"></span>
+  <div class="contenido" id="contenido">
+    <div id="texto"><span class="cursor"></span></div>
+    <button class="boton-stitch" id="boton" onclick="window.location.href='tequiero.html'">💫 Pulsa aquí...</button>
   </div>
 
   <script>
@@ -75,31 +96,22 @@ Porque solo con tenerte cerca calmas mi caos interior.
 
 Sé que no es fácil aguantarme,
 me rallo por tonterías...
-y aun así no te vas.
+y aun así no te vas.`;
 
-<a href="tequiero.html">Te quiero.</a>`; // ← CAMBIA ESTA URL
-
-    const contenedor = document.getElementById("texto");
-    const cursor = contenedor.querySelector(".cursor");
+    const contenedorTexto = document.getElementById("texto");
+    const cursor = contenedorTexto.querySelector(".cursor");
+    const boton = document.getElementById("boton");
 
     let i = 0;
+
     function escribir() {
       if (i < texto.length) {
-        if (texto.substring(i).startsWith("<a")) {
-          const endTag = "</a>";
-          const enlaceCompleto = texto.substring(i, texto.indexOf(endTag, i) + endTag.length);
-          const temp = document.createElement("div");
-          temp.innerHTML = enlaceCompleto;
-          const a = temp.firstChild;
-          i += enlaceCompleto.length;
-          contenedor.insertBefore(a, cursor);
-        } else {
-          contenedor.insertBefore(document.createTextNode(texto[i]), cursor);
-          i++;
-        }
+        contenedorTexto.insertBefore(document.createTextNode(texto[i]), cursor);
+        i++;
         setTimeout(escribir, 50);
       } else {
         cursor.remove();
+        boton.style.display = "inline-block";
       }
     }
 
