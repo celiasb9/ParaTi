@@ -56,6 +56,17 @@
 </head>
 <body>
   <audio src="assets/audio/musica.mp3" autoplay loop></audio>  
+  <script>
+    window.addEventListener('load', () => {
+      if (localStorage.getItem('playMusic') === 'yes') {
+        const audio = document.getElementById("musica");
+        audio.play().catch(() => {
+          // Si falla, muestra un botón si quieres
+        });
+        localStorage.removeItem('playMusic'); // Limpiar para que no se active sola después
+      }
+    });
+  </script>
   <div class="contenido">
     <img src="assets/img/stitch.gif" alt="Stitch con flores">
     <div class="texto">
