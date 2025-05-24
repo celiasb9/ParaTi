@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para ella</title>
+  <style>
+    body {
+      background-image: url('assets/img/fondo.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      color: white;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .contenido {
+      max-width: 600px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 15px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      font-size: 1.1em;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background-color: white;
+      margin-left: 3px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    a {
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contenido" id="texto">
+    <span class="cursor"></span>
+  </div>
+
+  <script>
+    const texto = 
+`‘Ohana’ significa familia.
+Y familia significa que nadie se queda atrás... ni se olvida.
+
+Para mí, tú eres hogar.
+Porque solo con tenerte cerca calmas mi caos interior.
+
+Sé que no es fácil aguantarme,
+me rallo por tonterías...
+y aun así no te vas.
+
+<a href="tequiero.html">Te quiero.</a>`; // ← CAMBIA ESTA URL
+
+    const contenedor = document.getElementById("texto");
+    const cursor = contenedor.querySelector(".cursor");
+
+    let i = 0;
+    function escribir() {
+      if (i < texto.length) {
+        if (texto.substring(i).startsWith("<a")) {
+          const endTag = "</a>";
+          const enlaceCompleto = texto.substring(i, texto.indexOf(endTag, i) + endTag.length);
+          const temp = document.createElement("div");
+          temp.innerHTML = enlaceCompleto;
+          const a = temp.firstChild;
+          i += enlaceCompleto.length;
+          contenedor.insertBefore(a, cursor);
+        } else {
+          contenedor.insertBefore(document.createTextNode(texto[i]), cursor);
+          i++;
+        }
+        setTimeout(escribir, 50);
+      } else {
+        cursor.remove();
+      }
+    }
+
+    escribir();
+  </script>
+
+</body>
+</html>
